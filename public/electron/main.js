@@ -4,8 +4,8 @@ let win;
 
 function createWindow() {
     win = new BrowserWindow({
-        minWidth: 600,
-        minHeight: 200,
+        minWidth: 1000,
+        minHeight: 600,
         webPreferences: {
             nodeIntegration: true,
             enableRemoteModule: true,
@@ -37,7 +37,17 @@ app.on('activate', () => {
 const ipcMain = require('electron').ipcMain;
 
 ipcMain.on('close-window', () => {
-    app.quit();
     win.close();
-    win = null;
+})
+
+ipcMain.on('minimize-window', () => {
+    win.minimize();
+})
+
+ipcMain.on('maximize-window', () => {
+    if (!win.isMaximized()) {
+        win.maximize();
+        return;
+    }
+    win.unmaximize();
 })

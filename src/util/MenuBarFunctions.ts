@@ -1,3 +1,6 @@
+const {ipcRenderer} = window.require('electron'); 
+
 export const closeWindow = () => {
-  //window.ipcRenderer.send("ping");
+  console.log(ipcRenderer);
+  ipcRenderer.send("close-window");
 };

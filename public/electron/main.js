@@ -9,8 +9,10 @@ function createWindow() {
         webPreferences: {
             nodeIntegration: true,
             enableRemoteModule: true,
-            preload: __dirname + '/preload.js'
+            contextIsolation: false,
+            preload: __dirname + '/preload.js',
         },
+        frame: false
     })
     win.maximize();
     win.show();
@@ -35,5 +37,7 @@ app.on('activate', () => {
 const ipcMain = require('electron').ipcMain;
 
 ipcMain.on('close-window', () => {
+    app.quit();
     win.close();
+    win = null;
 })

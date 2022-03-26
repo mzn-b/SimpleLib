@@ -1,11 +1,15 @@
 const { app, BrowserWindow } = require('electron')
 
+let win;
+
 function createWindow() {
-    const win = new BrowserWindow({
+    win = new BrowserWindow({
         minWidth: 600,
         minHeight: 200,
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            enableRemoteModule: true,
+            preload: __dirname + '/preload.js'
         },
     })
     win.maximize();
@@ -26,4 +30,10 @@ app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
         createWindow()
     }
+})
+
+const ipcMain = require('electron').ipcMain;
+
+ipcMain.on('close-window', () => {
+    win.close();
 })
